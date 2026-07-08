@@ -91,6 +91,11 @@ export class Auth0Functions {
     userId: string;
     email: string;
     mobileNum: string;
+    refreshToken: string;
+    idToken: string;
+    scope: string;
+    expiresIn: string;
+    tokenType: string;
   }> => {
     try {
       const creds = await auth0.auth.loginWithSMS({
@@ -99,6 +104,7 @@ export class Auth0Functions {
         audience,
         scope: auth0Config.scope,
       });
+      console.log('creds:',JSON.stringify(creds));
       await auth0.credentialsManager.saveCredentials(creds);
       // Read claims from the ID token — NOT Auth0's /userinfo (which 401s for the Beacon-scoped
       // access token and would fail an otherwise-successful verification).
@@ -109,10 +115,15 @@ export class Auth0Functions {
         userId: claims.sub ?? '',
         email: claims.email ?? '',
         mobileNum: input.phone,
+        refreshToken: creds.refreshToken,
+        idToken:creds.idToken,
+        scope: creds.scope,
+        expiresIn: creds.expiresIn,
+        tokenType: creds.tokenType
       };
     } catch (e) {
       console.warn('[Auth0Functions] verifyPhoneOtp failed', e);
-      return { status: 'failed', accessToken: '', userId: '', email: '', mobileNum: input.phone };
+      return { status: 'failed', accessToken: '', userId: '', email: '', mobileNum: '', refreshToken: '', idToken: '', scope: '', expiresIn: '', tokenType: ''};
     }
   };
 
