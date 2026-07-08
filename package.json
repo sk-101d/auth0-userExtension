@@ -1,0 +1,8 @@
+{
+  "name": "auth0-extension",
+  "version": "0.1.0",
+  "description": "Custom-extension source: Auth0 SDK integration — passwordless SMS OTP + Universal Login (login / logout / credentials). Pulled and overlaid by the App Studio custom-extension flow; package.json deps are merged into the generated app.",
+  "dependencies": {
+    "react-native-auth0": "5.8.0"
+  }
+}
